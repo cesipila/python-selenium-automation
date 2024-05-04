@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from behave import given, when, then
 from time import sleep
 
@@ -8,7 +9,7 @@ search_btn = (By.XPATH, '//button[@data-test="@web/Search/SearchButton"]')
 cart_icon = (By.CSS_SELECTOR, "[data-test='@web/CartLink']")
 header = (By.CSS_SELECTOR, "[class*='utilityHeaderWrapper]")
 header_links = (By.CSS_SELECTOR, "a[id*='utilityNav']")
-add_to_cart_btn = (By.CSS_SELECTOR, "[id*='utilityNav']")
+add_to_cart_btn = (By.CSS_SELECTOR, "[id*='addToCartButtonOrTextIdFor']")
 side_nav_product_name = (By.CSS_SELECTOR, "h4[class*='StyledHeading']")
 side_nav_add_to_cart_btn = (By.CSS_SELECTOR, "[data-test='orderPickupButton']")
 cart_empty_msg = (By.CSS_SELECTOR, "h1.styles__StyledHeading-sc-1xmf98v-0")
@@ -31,6 +32,9 @@ def click_cart_icon(context):
 
 @when("Click on Add to Cart button")
 def click_add_to_cart(context):
+    context.wait.until(EC.presence_of_element_located(add_to_cart_btn),
+                       message='Add to cart button not found')
+    sleep(3)
     context.driver.find_element(*add_to_cart_btn).click()
     # # add multiple:
     # add_to_cart_button = context.driver.find_element(*add_to_cart_btn)
@@ -46,12 +50,16 @@ def click_add_to_cart(context):
 @when("Store product name")
 def store_product_name(context):
     sleep(2)
+    context.wait.until(EC.presence_of_element_located(side_nav_product_name),
+                       message='Product name not present on the page')
     context.product_name = context.driver.find_element(*side_nav_product_name).text
 
 @when("Confirm Add to Cart button from side navigation")
 def confirm_add_to_cart(context):
     context.driver.find_element(*side_nav_add_to_cart_btn).click()
-    sleep(2)
+    context.wait.until(EC.invisibility_of_element_located(side_nav_add_to_cart_btn),
+                       message='Side nav, Add to Cart button did not disappear')
+
 
 @when("Open cart page")
 def open_cart_page(context):
@@ -73,6 +81,8 @@ def verify_amount(context, amount):
 
 @then("Verify your cart is empty message is shown")
 def verify_cart_is_empty(context):
+    context.wait.until(EC.presence_of_element_located(cart_empty_msg),
+                       message='cart empty message did not show')
     actual_text = context.driver.find_element(*cart_empty_msg).text
     expected_text = 'Your cart is empty'
     assert expected_text == actual_text, f"Expected {expected_text}, but got {actual_text}"
