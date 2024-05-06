@@ -8,7 +8,7 @@ Feature: Search tests
     Then Verify search results are shown for shirt
 
   Scenario Outline: User can search for a product
-    Given Open target main page
+    Given Open target home page
     When Search for <item>
     Then Verify search results are shown for <expected_item>
     Examples:
@@ -18,6 +18,6 @@ Feature: Search tests
     |white mug  |white mug
 
   Scenario: Verify that user can see product name
-    Given Open target main page
+    Given Open target home page
     When Search for AirPods (3rd Generation)
     Then Verify that every product has a name and an image
