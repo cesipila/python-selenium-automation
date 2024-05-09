@@ -6,16 +6,17 @@ Feature: Search tests
     Given Open Target home page
     When Search for shirt
     Then Verify search results are shown for shirt
+    Then Verify that URL has shirt
 
   Scenario Outline: User can search for a product
     Given Open target home page
     When Search for <item>
     Then Verify search results are shown for <expected_item>
     Examples:
-    |item       |expected_item
-    |mug        |mug
-    |tea        |tea
-    |white mug  |white mug
+      | item      | expected_item |
+      | mug       | mug           |
+      | tea       | tea           |
+      | white mug | white mug     |
 
   Scenario: Verify that user can see product name
     Given Open target home page
