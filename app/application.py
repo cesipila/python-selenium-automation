@@ -4,6 +4,7 @@ from pages.header import Header
 from pages.main_page import MainPage
 from pages.search_results_page import SearchResultsPage
 from pages.sign_in_sidenav import SignIn
+from pages.target_app_page import TargetAppPage
 
 
 class Application:
@@ -15,3 +16,4 @@ class Application:
         self.header = Header(driver)
         self.sign_in_sidenav = SignIn(driver)
         self.search_results_page = SearchResultsPage(driver)
+        self.target_app_page = TargetAppPage(driver)
