@@ -34,3 +34,7 @@ def verify_sign_in_form(context):
 @then("Verify user is logged in")
 def verify_sign_in(context):
     context.driver.find_element(By.CSS_SELECTOR, "input[id='phone']").click()
+
+@then('Verify that we cant find your account message is shown')
+def verify_sign_in_no_account(context):
+    context.app.sign_in_sidenav.verify_signin_page_alert()
